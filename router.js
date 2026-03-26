@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getHomepage } from "./controller.js";
+import { getHomepage, getNewClass } from "./controller.js";
 
 const router = Router();
 
 router.get("/", getHomepage);
+router.get("/classes/new", getNewClass);
 
 export default router;

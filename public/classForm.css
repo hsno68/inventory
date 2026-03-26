@@ -1,0 +1,10 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 0.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
