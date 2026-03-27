@@ -1,13 +1,11 @@
-.buttons-list {
-  width: max-content;
+ul {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
 }
 
 a.button {
-  flex: 1;
   display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1.125rem;
   padding: 1.25rem 2.5rem;
   background-color: var(--color-surface);

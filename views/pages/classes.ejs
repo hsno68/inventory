@@ -1,0 +1,8 @@
+<h1>Classes</h1>
+<a href="/">Back</a>
+<ul>
+  <% classes.forEach((cls) => { %>
+    <% const { class_name : className } = cls %>
+    <li><%= className %></li>
+  <% }) %>
+</ul>
