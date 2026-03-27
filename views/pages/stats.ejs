@@ -1,0 +1,8 @@
+<h1>Stats</h1>
+<a href="/">Back</a>
+<ul>
+  <% stats.forEach((stat) => { %>
+    <% const { stat_name : statName } = stat %>
+    <li><%= statName %></li>
+  <% }) %>
+</ul>
