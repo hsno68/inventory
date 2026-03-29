@@ -72,5 +72,7 @@ export async function getNewItem(req, res) {
 
 export async function createNewItem(req, res) {
   console.log("created");
-  res.redirect("/items");
+  const { itemName, itemCost, className, stats } = req.body;
+  const validStats = stats.filter((stats) => stats.name);
+  res.redirect("/items/new");
 }
