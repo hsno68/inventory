@@ -1,4 +1,10 @@
-import { getAllClasses, getAllStats, insertClassName, insertStatName } from "./db/queries.js";
+import {
+  getAllClasses,
+  getAllStats,
+  getAllItems,
+  insertClassName,
+  insertStatName,
+} from "./db/queries.js";
 
 export function getHomepage(req, res) {
   res.render("layout", { title: "Inventory", page: "pages/homepage", css: "/homepage.css" });
@@ -42,4 +48,29 @@ export async function createNewStat(req, res) {
   const { statName } = req.body;
   await insertStatName(statName);
   res.redirect("/stats");
+}
+
+export async function getItems(req, res) {
+  const items = await getAllItems();
+  res.render("layout", {
+    title: "Items",
+    page: "pages/items.ejs",
+    css: null,
+    items: items,
+  });
+}
+
+export async function getNewItem(req, res) {
+  const classes = await getAllClasses();
+  res.render("layout", {
+    title: "New Item",
+    page: "pages/items-form",
+    css: "/form.css",
+    classes: classes,
+  });
+}
+
+export async function createNewItem(req, res) {
+  console.log("created");
+  res.redirect("/items");
 }

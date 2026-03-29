@@ -1,0 +1,9 @@
+<h1>Items</h1>
+<a href="/">Back</a>
+<ul>
+  <% items.forEach((item) => { %>
+    <% const { item_name : itemName, item_cost: itemCost } = item %>
+    <li><%= itemName %></li>
+    <li><%= itemCost %></li>
+  <% }) %>
+</ul>

@@ -10,6 +10,11 @@ export async function getAllStats() {
   return rows;
 }
 
+export async function getAllItems() {
+  const { rows } = await pool.query("SELECT * FROM items");
+  return rows;
+}
+
 export async function insertClassName(className) {
   await pool.query("INSERT INTO classes (class_name) VALUES ($1)", [className]);
 }
@@ -17,3 +22,5 @@ export async function insertClassName(className) {
 export async function insertStatName(statName) {
   await pool.query("INSERT INTO stats (stat_name) VALUES ($1)", [statName]);
 }
+
+export async function insertItemName(itemName) {}
