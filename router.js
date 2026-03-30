@@ -2,6 +2,8 @@ import { Router } from "express";
 import {
   getHomepage,
   getClasses,
+  getClass,
+  updateClass,
   getNewClass,
   createNewClass,
   getStats,
@@ -15,15 +17,21 @@ import {
 const router = Router();
 
 router.get("/", getHomepage);
+
 router.get("/classes", getClasses);
 router.get("/classes/new", getNewClass);
+router.get("/classes/:className", getClass);
+
 router.get("/stats", getStats);
 router.get("/stats/new", getNewStat);
+
 router.get("/items", getItems);
 router.get("/items/new", getNewItem);
 
 router.post("/classes", createNewClass);
 router.post("/stats", createNewStat);
 router.post("/items", createNewItem);
+
+router.post("/classes/:className", updateClass);
 
 export default router;

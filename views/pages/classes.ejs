@@ -3,6 +3,6 @@
 <ul>
   <% classes.forEach((cls) => { %>
     <% const { class_name : className } = cls %>
-    <li><%= className %></li>
+    <li><%= className %> <a href="/classes/<%= className %>">Edit</a></li>
   <% }) %>
 </ul>

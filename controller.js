@@ -1,14 +1,19 @@
 import {
   getAllClasses,
-  getAllStats,
-  getAllItems,
   insertClassName,
+  updateClassName,
+  getAllStats,
   insertStatName,
+  getAllItems,
 } from "./db/queries.js";
+
+//Homepage
 
 export function getHomepage(req, res) {
   res.render("layout", { title: "Inventory", page: "pages/homepage", css: "/homepage.css" });
 }
+
+//Classes
 
 export function getNewClass(req, res) {
   res.render("layout", { title: "New Class", page: "pages/classes-form", css: "/form.css" });
@@ -24,11 +29,30 @@ export async function getClasses(req, res) {
   });
 }
 
+export async function getClass(req, res) {
+  const { className } = req.params;
+  res.render("layout", {
+    title: className,
+    page: "pages/single-class",
+    css: "/form.css",
+    className: className,
+  });
+}
+
 export async function createNewClass(req, res) {
   const { className } = req.body;
   await insertClassName(className);
   res.redirect("/classes");
 }
+
+export async function updateClass(req, res) {
+  const { className: oldClass } = req.params;
+  const { className: newClass } = req.body;
+  await updateClassName(oldClass, newClass);
+  res.redirect("/classes");
+}
+
+//Stats
 
 export function getNewStat(req, res) {
   res.render("layout", { title: "New Stat", page: "pages/stats-form", css: "/form.css" });
@@ -49,6 +73,8 @@ export async function createNewStat(req, res) {
   await insertStatName(statName);
   res.redirect("/stats");
 }
+
+//Items
 
 export async function getItems(req, res) {
   const items = await getAllItems();
