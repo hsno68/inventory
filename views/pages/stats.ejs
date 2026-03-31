@@ -3,6 +3,12 @@
 <ul>
   <% stats.forEach((stat) => { %>
     <% const { stat_name : statName } = stat %>
-    <li><%= statName %></li>
+    <li><%= statName %>
+      <a href="/stats/<%= statName %>" class="button">Edit</a>
+      <form method="POST" action="/stats/<%= statName %>/delete" class="delete-form">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
   <% }) %>
 </ul>
+<script src="/js/confirm.js"></script>

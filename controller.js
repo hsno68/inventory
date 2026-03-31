@@ -1,12 +1,4 @@
-import {
-  getAllClasses,
-  insertClassName,
-  updateClassName,
-  deleteClassName,
-  getAllStats,
-  insertStatName,
-  getAllItems,
-} from "./db/queries.js";
+import * as db from "./db/queries.js";
 
 //Homepage
 
@@ -23,7 +15,7 @@ export function getNewClass(req, res) {
 
 //Read all classes
 export async function getClasses(req, res) {
-  const classes = await getAllClasses();
+  const classes = await db.getAllClasses();
   res.render("layout", {
     title: "Classes",
     page: "pages/classes.ejs",
@@ -44,9 +36,9 @@ export async function getClass(req, res) {
 }
 
 //Create a class
-export async function createNewClass(req, res) {
+export async function createClass(req, res) {
   const { className } = req.body;
-  await insertClassName(className);
+  await db.insertClass(className);
   res.redirect("/classes");
 }
 
@@ -54,14 +46,14 @@ export async function createNewClass(req, res) {
 export async function updateClass(req, res) {
   const { className: oldClass } = req.params;
   const { className: newClass } = req.body;
-  await updateClassName(oldClass, newClass);
+  await db.updateClass(oldClass, newClass);
   res.redirect("/classes");
 }
 
 //Delete a class
 export async function deleteClass(req, res) {
   const { className } = req.params;
-  await deleteClassName(className);
+  await db.deleteClass(className);
   res.redirect("/classes");
 }
 
@@ -74,19 +66,47 @@ export function getNewStat(req, res) {
 
 //Read all stats
 export async function getStats(req, res) {
-  const stats = await getAllStats();
+  const stats = await db.getAllStats();
   res.render("layout", {
     title: "Stats",
     page: "pages/stats.ejs",
-    css: null,
+    css: "/form.css",
     stats: stats,
   });
 }
 
+//Read a single stat
+export async function getStat(req, res) {
+  const { statName } = req.params;
+  res.render("layout", {
+    title: statName,
+    page: "pages/single-stat",
+    css: "/form.css",
+    statName: statName,
+  });
+}
+
 //Create a stat
-export async function createNewStat(req, res) {
+export async function createStat(req, res) {
   const { statName } = req.body;
-  await insertStatName(statName);
+  await db.insertStat(statName);
+  res.redirect("/stats");
+}
+
+//Update a stat
+export async function updateStat(req, res) {
+  const { statName } = req.params;
+  const oldStat = decodeURIComponent(statName);
+  const { statName: newStat } = req.body;
+  await db.updateStat(oldStat, newStat);
+  res.redirect("/stats");
+}
+
+//Delete a stat
+export async function deleteStat(req, res) {
+  const { statName } = req.params;
+  const stat = decodeURIComponent(statName);
+  await db.deleteStat(stat);
   res.redirect("/stats");
 }
 
@@ -94,7 +114,7 @@ export async function createNewStat(req, res) {
 
 //GET new item form
 export async function getNewItem(req, res) {
-  const classes = await getAllClasses();
+  const classes = await db.getAllClasses();
   res.render("layout", {
     title: "New Item",
     page: "pages/items-form",
@@ -105,7 +125,7 @@ export async function getNewItem(req, res) {
 
 //Read all items
 export async function getItems(req, res) {
-  const items = await getAllItems();
+  const items = await db.getAllItems();
   res.render("layout", {
     title: "Items",
     page: "pages/items.ejs",
@@ -115,7 +135,7 @@ export async function getItems(req, res) {
 }
 
 //Create an item
-export async function createNewItem(req, res) {
+export async function createItem(req, res) {
   console.log("created");
   const { itemName, itemCost, className, stats } = req.body;
   const validStats = stats.filter((stats) => stats.name);
