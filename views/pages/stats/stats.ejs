@@ -1,0 +1,14 @@
+<h1>Stats</h1>
+<a href="/" class="button">Back</a>
+<ul>
+  <% stats.forEach((stat) => { %>
+    <% const { stat_name, id } = stat %>
+    <li><%= stat_name %>
+      <a href="/stats/<%= id %>" class="button">Edit</a>
+      <form method="POST" action="/stats/<%= id %>/delete" class="delete-form">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+<script src="/js/confirm.js"></script>

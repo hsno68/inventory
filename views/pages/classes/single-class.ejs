@@ -1,0 +1,9 @@
+<h1>Edit Class</h1>
+<form method="POST" action="/classes/<%= id %>">
+  <div class="form-group">
+    <label for="className">Class</label>
+    <input type="text" id="className" name="className" value="<%= class_name %>" />
+  </div>
+  <a href="/classes" class="button">Cancel</a>
+  <button type="submit">Submit</button>
+</form>

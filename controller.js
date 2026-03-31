@@ -10,7 +10,11 @@ export function getHomepage(req, res) {
 
 //GET new class form
 export function getNewClass(req, res) {
-  res.render("layout", { title: "New Class", page: "pages/classes-form", css: "/form.css" });
+  res.render("layout", {
+    title: "New Class",
+    page: "pages/classes/classes-form",
+    css: "/form.css",
+  });
 }
 
 //Read all classes
@@ -18,7 +22,7 @@ export async function getClasses(req, res) {
   const classes = await db.getAllClasses();
   res.render("layout", {
     title: "Classes",
-    page: "pages/classes.ejs",
+    page: "pages/classes/classes.ejs",
     css: "/form.css",
     classes: classes,
   });
@@ -26,12 +30,16 @@ export async function getClasses(req, res) {
 
 //Read a single class
 export async function getClass(req, res) {
-  const { className } = req.params;
+  const { id } = req.params;
+  const championClass = await db.getClass(id);
+  const { class_name } = championClass;
+
   res.render("layout", {
-    title: className,
-    page: "pages/single-class",
+    title: class_name,
+    page: "pages/classes/single-class",
     css: "/form.css",
-    className: className,
+    id: id,
+    class_name: class_name,
   });
 }
 
@@ -44,16 +52,22 @@ export async function createClass(req, res) {
 
 //Update a class
 export async function updateClass(req, res) {
-  const { className: oldClass } = req.params;
+  const { id } = req.params;
+  const championClass = await db.getClass(id);
+  const { class_name: oldClass } = championClass;
   const { className: newClass } = req.body;
+
   await db.updateClass(oldClass, newClass);
   res.redirect("/classes");
 }
 
 //Delete a class
 export async function deleteClass(req, res) {
-  const { className } = req.params;
-  await db.deleteClass(className);
+  const { id } = req.params;
+  const championClass = await db.getClass(id);
+  const { class_name } = championClass;
+
+  await db.deleteClass(class_name);
   res.redirect("/classes");
 }
 
@@ -61,7 +75,7 @@ export async function deleteClass(req, res) {
 
 //GET new stat form
 export function getNewStat(req, res) {
-  res.render("layout", { title: "New Stat", page: "pages/stats-form", css: "/form.css" });
+  res.render("layout", { title: "New Stat", page: "pages/stats/stats-form", css: "/form.css" });
 }
 
 //Read all stats
@@ -69,7 +83,7 @@ export async function getStats(req, res) {
   const stats = await db.getAllStats();
   res.render("layout", {
     title: "Stats",
-    page: "pages/stats.ejs",
+    page: "pages/stats/stats.ejs",
     css: "/form.css",
     stats: stats,
   });
@@ -77,12 +91,16 @@ export async function getStats(req, res) {
 
 //Read a single stat
 export async function getStat(req, res) {
-  const { statName } = req.params;
+  const { id } = req.params;
+  const stat = await db.getStat(id);
+  const { stat_name } = stat;
+
   res.render("layout", {
-    title: statName,
-    page: "pages/single-stat",
+    title: stat_name,
+    page: "pages/stats/single-stat",
     css: "/form.css",
-    statName: statName,
+    id: id,
+    stat_name: stat_name,
   });
 }
 
@@ -95,18 +113,22 @@ export async function createStat(req, res) {
 
 //Update a stat
 export async function updateStat(req, res) {
-  const { statName } = req.params;
-  const oldStat = decodeURIComponent(statName);
+  const { id } = req.params;
+  const stat = await db.getStat(id);
+  const { stat_name: oldStat } = stat;
   const { statName: newStat } = req.body;
+
   await db.updateStat(oldStat, newStat);
   res.redirect("/stats");
 }
 
 //Delete a stat
 export async function deleteStat(req, res) {
-  const { statName } = req.params;
-  const stat = decodeURIComponent(statName);
-  await db.deleteStat(stat);
+  const { id } = req.params;
+  const stat = await db.getStat(id);
+  const { stat_name } = stat;
+
+  await db.deleteStat(stat_name);
   res.redirect("/stats");
 }
 
@@ -115,11 +137,13 @@ export async function deleteStat(req, res) {
 //GET new item form
 export async function getNewItem(req, res) {
   const classes = await db.getAllClasses();
+  const stats = await db.getAllStats();
   res.render("layout", {
     title: "New Item",
-    page: "pages/items-form",
+    page: "pages/items/items-form",
     css: "/form.css",
     classes: classes,
+    stats: stats,
   });
 }
 
@@ -128,16 +152,25 @@ export async function getItems(req, res) {
   const items = await db.getAllItems();
   res.render("layout", {
     title: "Items",
-    page: "pages/items.ejs",
-    css: null,
+    page: "pages/items/items.ejs",
+    css: "/form.css",
     items: items,
   });
 }
 
 //Create an item
 export async function createItem(req, res) {
-  console.log("created");
-  const { itemName, itemCost, className, stats } = req.body;
+  const { itemName, itemCost, itemClass, stats } = req.body;
+
   const validStats = stats.filter((stats) => stats.name);
+
+  const aggregateStats = {};
+
+  validStats.forEach((s) => {
+    const name = s.name;
+    const value = Number(s.value) || 0;
+    aggregateStats[name] = (aggregateStats[name] || 0) + value;
+  });
+
   res.redirect("/items/new");
 }

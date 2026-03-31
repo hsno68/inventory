@@ -24,19 +24,19 @@ router.get("/", getHomepage);
 
 router.get("/classes", getClasses);
 router.get("/classes/new", getNewClass);
-router.get("/classes/:className", getClass);
+router.get("/classes/:id", getClass);
 
 router.post("/classes", createClass);
-router.post("/classes/:className", updateClass);
-router.post("/classes/:className/delete", deleteClass);
+router.post("/classes/:id", updateClass);
+router.post("/classes/:id/delete", deleteClass);
 
 router.get("/stats", getStats);
 router.get("/stats/new", getNewStat);
-router.get("/stats/:statName", getStat);
+router.get("/stats/:id", getStat);
 
 router.post("/stats", createStat);
-router.post("/stats/:statName", updateStat);
-router.post("/stats/:statName/delete", deleteStat);
+router.post("/stats/:id", updateStat);
+router.post("/stats/:id/delete", deleteStat);
 
 router.get("/items", getItems);
 router.get("/items/new", getNewItem);

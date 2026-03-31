@@ -1,0 +1,14 @@
+<h1>Classes</h1>
+<a href="/" class="button">Back</a>
+<ul>
+  <% classes.forEach((championClass) => { %>
+    <% const { class_name, id } = championClass %>
+    <li><%= class_name %>
+      <a href="/classes/<%= id %>" class="button">Edit</a>
+      <form method="POST" action="/classes/<%= id %>/delete" class="delete-form">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+<script src="/js/confirm.js"></script>

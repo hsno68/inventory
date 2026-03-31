@@ -1,0 +1,9 @@
+<h1>Edit Stat</h1>
+<form method="POST" action="/stats/<%= id %>">
+  <div class="form-group">
+    <label for="statName">Stat</label>
+    <input type="text" id="statName" name="statName" value="<%= stat_name %>" />
+  </div>
+  <a href="/stats" class="button">Cancel</a>
+  <button type="submit">Submit</button>
+</form>
