@@ -1,10 +1,10 @@
 <h1>Classes</h1>
-<a href="/">Back</a>
+<a href="/" class="button">Back</a>
 <ul>
   <% classes.forEach((cls) => { %>
     <% const { class_name : className } = cls %>
     <li><%= className %>
-      <a href="/classes/<%= className %>">Edit</a>
+      <a href="/classes/<%= className %>" class="button">Edit</a>
       <form method="POST" action="/classes/<%= className %>/delete" class="delete-form">
         <button type="submit">Delete</button>
       </form>
