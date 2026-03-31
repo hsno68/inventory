@@ -3,6 +3,12 @@
 <ul>
   <% classes.forEach((cls) => { %>
     <% const { class_name : className } = cls %>
-    <li><%= className %> <a href="/classes/<%= className %>">Edit</a></li>
+    <li><%= className %>
+      <a href="/classes/<%= className %>">Edit</a>
+      <form method="POST" action="/classes/<%= className %>/delete" class="delete-form">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
   <% }) %>
 </ul>
+<script src="/js/confirm.js"></script>

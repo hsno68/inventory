@@ -6,6 +6,7 @@ import {
   updateClass,
   getNewClass,
   createNewClass,
+  deleteClass,
   getStats,
   getNewStat,
   createNewStat,
@@ -22,16 +23,17 @@ router.get("/classes", getClasses);
 router.get("/classes/new", getNewClass);
 router.get("/classes/:className", getClass);
 
+router.post("/classes", createNewClass);
+router.post("/classes/:className", updateClass);
+router.post("/classes/:className/delete", deleteClass);
+
 router.get("/stats", getStats);
 router.get("/stats/new", getNewStat);
 
 router.get("/items", getItems);
 router.get("/items/new", getNewItem);
 
-router.post("/classes", createNewClass);
 router.post("/stats", createNewStat);
 router.post("/items", createNewItem);
-
-router.post("/classes/:className", updateClass);
 
 export default router;

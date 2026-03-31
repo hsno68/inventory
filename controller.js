@@ -2,6 +2,7 @@ import {
   getAllClasses,
   insertClassName,
   updateClassName,
+  deleteClassName,
   getAllStats,
   insertStatName,
   getAllItems,
@@ -24,7 +25,7 @@ export async function getClasses(req, res) {
   res.render("layout", {
     title: "Classes",
     page: "pages/classes.ejs",
-    css: null,
+    css: "/form.css",
     classes: classes,
   });
 }
@@ -49,6 +50,12 @@ export async function updateClass(req, res) {
   const { className: oldClass } = req.params;
   const { className: newClass } = req.body;
   await updateClassName(oldClass, newClass);
+  res.redirect("/classes");
+}
+
+export async function deleteClass(req, res) {
+  const { className } = req.params;
+  await deleteClassName(className);
   res.redirect("/classes");
 }
 

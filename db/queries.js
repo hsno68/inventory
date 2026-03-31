@@ -28,6 +28,10 @@ export async function updateClassName(oldClass, newClass) {
   ]);
 }
 
+export async function deleteClassName(className) {
+  await pool.query("DELETE FROM classes WHERE class_name = $1", [className]);
+}
+
 //Stats
 
 export async function getAllStats() {
