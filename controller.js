@@ -16,10 +16,12 @@ export function getHomepage(req, res) {
 
 //Classes
 
+//GET new class form
 export function getNewClass(req, res) {
   res.render("layout", { title: "New Class", page: "pages/classes-form", css: "/form.css" });
 }
 
+//Read all classes
 export async function getClasses(req, res) {
   const classes = await getAllClasses();
   res.render("layout", {
@@ -30,6 +32,7 @@ export async function getClasses(req, res) {
   });
 }
 
+//Read a single class
 export async function getClass(req, res) {
   const { className } = req.params;
   res.render("layout", {
@@ -40,12 +43,14 @@ export async function getClass(req, res) {
   });
 }
 
+//Create a class
 export async function createNewClass(req, res) {
   const { className } = req.body;
   await insertClassName(className);
   res.redirect("/classes");
 }
 
+//Update a class
 export async function updateClass(req, res) {
   const { className: oldClass } = req.params;
   const { className: newClass } = req.body;
@@ -53,6 +58,7 @@ export async function updateClass(req, res) {
   res.redirect("/classes");
 }
 
+//Delete a class
 export async function deleteClass(req, res) {
   const { className } = req.params;
   await deleteClassName(className);
@@ -61,10 +67,12 @@ export async function deleteClass(req, res) {
 
 //Stats
 
+//GET new stat form
 export function getNewStat(req, res) {
   res.render("layout", { title: "New Stat", page: "pages/stats-form", css: "/form.css" });
 }
 
+//Read all stats
 export async function getStats(req, res) {
   const stats = await getAllStats();
   res.render("layout", {
@@ -75,6 +83,7 @@ export async function getStats(req, res) {
   });
 }
 
+//Create a stat
 export async function createNewStat(req, res) {
   const { statName } = req.body;
   await insertStatName(statName);
@@ -83,16 +92,7 @@ export async function createNewStat(req, res) {
 
 //Items
 
-export async function getItems(req, res) {
-  const items = await getAllItems();
-  res.render("layout", {
-    title: "Items",
-    page: "pages/items.ejs",
-    css: null,
-    items: items,
-  });
-}
-
+//GET new item form
 export async function getNewItem(req, res) {
   const classes = await getAllClasses();
   res.render("layout", {
@@ -103,6 +103,18 @@ export async function getNewItem(req, res) {
   });
 }
 
+//Read all items
+export async function getItems(req, res) {
+  const items = await getAllItems();
+  res.render("layout", {
+    title: "Items",
+    page: "pages/items.ejs",
+    css: null,
+    items: items,
+  });
+}
+
+//Create an item
 export async function createNewItem(req, res) {
   console.log("created");
   const { itemName, itemCost, className, stats } = req.body;
