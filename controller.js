@@ -162,15 +162,15 @@ export async function getItems(req, res) {
 export async function createItem(req, res) {
   const { itemName, itemCost, itemClass, stats } = req.body;
 
-  const validStats = stats.filter((stats) => stats.name);
+  const validStats = stats.filter((stat) => stat.id);
 
   const aggregateStats = {};
 
-  validStats.forEach((s) => {
-    const name = s.name;
-    const value = Number(s.value) || 0;
-    aggregateStats[name] = (aggregateStats[name] || 0) + value;
+  validStats.forEach(({ id, value }) => {
+    aggregateStats[id] = (aggregateStats[id] || 0) + Number(value) || 0;
   });
 
-  res.redirect("/items/new");
+  await db.insertItem({ itemName, itemCost, class_id: itemClass, stats: aggregateStats });
+
+  res.redirect("/items");
 }

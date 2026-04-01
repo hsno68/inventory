@@ -2,8 +2,25 @@
 <a href="/" class="button">Back</a>
 <ul>
   <% items.forEach((item) => { %>
-    <% const { item_name, item_cost } = item %>
-    <li><%= item_name %></li>
-    <li><%= item_cost %></li>
+    <li>
+      <strong><%= item.name %></strong> — Cost: <%= item.cost %>
+      <% if (item.classes.length > 0) { %>
+        <div>Class:
+          <% item.classes.forEach((cls, idx) => { %>
+            <%= cls.name %><%= idx < item.classes.length - 1 ? ', ' : '' %>
+          <% }) %>
+        </div>
+      <% } %>
+
+      <% if (item.stats.length > 0) { %>
+        <div>
+          <ul>
+            <% item.stats.forEach((stat) => { %>
+              <li><%= stat.name %>: <%= stat.value %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+    </li>
   <% }) %>
 </ul>
