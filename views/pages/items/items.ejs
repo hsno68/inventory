@@ -3,11 +3,11 @@
 <ul>
   <% items.forEach((item) => { %>
     <li>
-      <strong><%= item.name %></strong> — Cost: <%= item.cost %>
+      <h2><%= item.name %></h2> — Cost: <%= item.cost %>
       <% if (item.classes.length > 0) { %>
         <div>Class:
-          <% item.classes.forEach((cls, idx) => { %>
-            <%= cls.name %><%= idx < item.classes.length - 1 ? ', ' : '' %>
+          <% item.classes.forEach((cls) => { %>
+            <%= cls.name %>
           <% }) %>
         </div>
       <% } %>

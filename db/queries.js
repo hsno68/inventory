@@ -75,20 +75,20 @@ export async function deleteStat(statName) {
 export async function getAllItems() {
   const { rows } = await pool.query(`
     SELECT 
-      i.id AS item_id,
-      i.item_name,
-      i.item_cost,
-      c.id AS class_id,
-      c.class_name,
-      s.id AS stat_id,
-      s.stat_name,
-      ist.stat_value
-    FROM items i
-    LEFT JOIN item_classes ic ON i.id = ic.item_id
-    LEFT JOIN classes c ON ic.class_id = c.id
-    LEFT JOIN item_stats ist ON i.id = ist.item_id
-    LEFT JOIN stats s ON ist.stat_id = s.id
-    ORDER BY i.id;
+      items.id AS item_id,
+      items.item_name,
+      items.item_cost,
+      classes.id AS class_id,
+      classes.class_name,
+      stats.id AS stat_id,
+      stats.stat_name,
+      item_stats.stat_value
+    FROM items
+    LEFT JOIN item_classes ON items.id = item_classes.item_id
+    LEFT JOIN classes ON item_classes.class_id = classes.id
+    LEFT JOIN item_stats ON items.id = item_stats.item_id
+    LEFT JOIN stats ON item_stats.stat_id = stats.id
+    ORDER BY items.id;
   `);
 
   const itemsMap = {};
@@ -107,7 +107,7 @@ export async function getAllItems() {
     }
 
     // Add class if exists and not already added
-    if (row.class_id && !itemsMap[itemId].classes.some((c) => c.id === row.class_id)) {
+    if (row.class_id && !itemsMap[itemId].classes.some((cls) => cls.id === row.class_id)) {
       itemsMap[itemId].classes.push({
         id: row.class_id,
         name: row.class_name,
@@ -115,7 +115,7 @@ export async function getAllItems() {
     }
 
     // Add stat if exists
-    if (row.stat_id && !itemsMap[itemId].stats.some((s) => s.id === row.stat_id)) {
+    if (row.stat_id && !itemsMap[itemId].stats.some((stat) => stat.id === row.stat_id)) {
       itemsMap[itemId].stats.push({
         id: row.stat_id,
         name: row.stat_name,

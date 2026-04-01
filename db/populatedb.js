@@ -20,17 +20,17 @@ const SQL = `
     class_name VARCHAR(100) UNIQUE NOT NULL
   );
 
-  CREATE TABLE IF NOT EXISTS item_stats (
-    item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
-    stat_id INTEGER NOT NULL REFERENCES stats(id) ON DELETE CASCADE,
-    stat_value NUMERIC NOT NULL,
-    PRIMARY KEY (item_id, stat_id)
-  );
-
   CREATE TABLE IF NOT EXISTS item_classes (
     item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
     class_id INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
     PRIMARY KEY (item_id, class_id)
+  );
+
+    CREATE TABLE IF NOT EXISTS item_stats (
+    item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
+    stat_id INTEGER NOT NULL REFERENCES stats(id) ON DELETE CASCADE,
+    stat_value NUMERIC NOT NULL,
+    PRIMARY KEY (item_id, stat_id)
   );
 `;
 
