@@ -199,4 +199,8 @@ export async function updateItem(req, res) {
 }
 
 //Delete an item
-export async function deleteItem(req, res) {}
+export async function deleteItem(req, res) {
+  const { id } = req.params;
+  await db.deleteItem(id);
+  res.redirect("/items");
+}

@@ -47,6 +47,6 @@ router.get("/items/:id", getItem);
 
 router.post("/items", createItem);
 router.post("/items/:id", updateItem);
-router.post("items/:id/delete", deleteItem);
+router.post("/items/:id/delete", deleteItem);
 
 export default router;

@@ -239,3 +239,6 @@ export async function updateItem({ id, itemName, itemCost, class_id, stats }) {
 }
 
 //Delete an item
+export async function deleteItem(id) {
+  await pool.query("DELETE FROM items WHERE id = $1", [id]);
+}
