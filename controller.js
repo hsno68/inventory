@@ -22,7 +22,7 @@ export async function getClasses(req, res) {
   const classes = await db.getAllClasses();
   res.render("layout", {
     title: "Classes",
-    page: "pages/classes/classes.ejs",
+    page: "pages/classes/classes",
     css: "/form.css",
     classes: classes,
   });
@@ -77,7 +77,7 @@ export async function getStats(req, res) {
   const stats = await db.getAllStats();
   res.render("layout", {
     title: "Stats",
-    page: "pages/stats/stats.ejs",
+    page: "pages/stats/stats",
     css: "/form.css",
     stats: stats,
   });
@@ -140,7 +140,7 @@ export async function getItems(req, res) {
   const items = await db.getAllItems();
   res.render("layout", {
     title: "Items",
-    page: "pages/items/items.ejs",
+    page: "pages/items/items",
     css: "/form.css",
     items: items,
   });
