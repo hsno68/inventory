@@ -128,6 +128,82 @@ export async function getAllItems() {
   return Object.values(itemsMap);
 }
 
+/*
+  {
+    id: 1,
+    name: 'Sword',
+    cost: 100,
+    classes: [
+      { id: 2, name: 'Warrior' },
+      { id: 5, name: 'Knight' }
+    ],
+    stats: [
+      { id: 3, name: 'Attack Damage', value: 15 },
+      { id: 4, name: 'Attack Speed', value: 1.2 }
+    ]
+  }
+*/
+
+//Read a single item
+// Read a single item
+export async function getItem(id) {
+  const { rows } = await pool.query(
+    `
+    SELECT 
+      items.id AS item_id,
+      items.item_name,
+      items.item_cost,
+      classes.id AS class_id,
+      classes.class_name,
+      stats.id AS stat_id,
+      stats.stat_name,
+      item_stats.stat_value
+    FROM items
+    LEFT JOIN item_classes ON items.id = item_classes.item_id
+    LEFT JOIN classes ON item_classes.class_id = classes.id
+    LEFT JOIN item_stats ON items.id = item_stats.item_id
+    LEFT JOIN stats ON item_stats.stat_id = stats.id
+    WHERE items.id = $1
+  `,
+    [id]
+  );
+
+  if (rows.length === 0) return null; // no item found
+
+  const item = {
+    id: rows[0].item_id,
+    name: rows[0].item_name,
+    cost: rows[0].item_cost,
+    classes: [],
+    stats: [],
+  };
+
+  // Track added classes and stats to avoid duplicates
+  const classIds = new Set();
+  const statIds = new Set();
+
+  for (const row of rows) {
+    if (row.class_id && !classIds.has(row.class_id)) {
+      item.classes.push({
+        id: row.class_id,
+        name: row.class_name,
+      });
+      classIds.add(row.class_id);
+    }
+
+    if (row.stat_id && !statIds.has(row.stat_id)) {
+      item.stats.push({
+        id: row.stat_id,
+        name: row.stat_name,
+        value: Number(row.stat_value),
+      });
+      statIds.add(row.stat_id);
+    }
+  }
+
+  return item;
+}
+
 //Create an item
 export async function insertItem({ itemName, itemCost, class_id, stats }) {
   const { rows } = await pool.query(

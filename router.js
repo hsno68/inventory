@@ -16,6 +16,7 @@ import {
   deleteStat,
   createItem,
   getItems,
+  getItem,
 } from "./controller.js";
 
 const router = Router();
@@ -40,6 +41,7 @@ router.post("/stats/:id/delete", deleteStat);
 
 router.get("/items", getItems);
 router.get("/items/new", getNewItem);
+router.get("/items/:id", getItem);
 
 router.post("/items", createItem);
 

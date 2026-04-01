@@ -1,0 +1,57 @@
+<h1>Edit Item</h1>
+<a href="/items" class="button">Back</a>
+
+<form method="POST" action="/items/<%= item.id %>">
+  <!-- Item Name -->
+  <div class="form-group">
+    <label for="itemName">Item</label>
+    <input type="text" id="itemName" name="itemName" value="<%= item.name %>" required />
+  </div>
+
+  <!-- Item Cost -->
+  <div class="form-group">
+    <label for="itemCost">Cost</label>
+    <input type="number" id="itemCost" name="itemCost" value="<%= item.cost %>" min="0" required />
+  </div>
+
+  <!-- Class Dropdown -->
+  <div class="form-group">
+    <label for="itemClass">Class</label>
+    <select id="itemClass" name="itemClass">
+      <option value="">--Select Class--</option>
+      <% classes.forEach(cls => { %>
+        <option value="<%= cls.id %>" <%= item.classes.some(c => c.id === cls.id) ? 'selected' : '' %>>
+          <%= cls.class_name %>
+        </option>
+      <% }) %>
+    </select>
+  </div>
+
+  <!-- Stats -->
+  <% for (let i = 0; i < 5; i++) { 
+      const statObj = item.stats[i] || {};
+  %>
+    <div class="form-group">
+      <label for="stat<%= i %>">Stat</label>
+      <select id="stat<%= i %>" name="stats[<%= i %>][id]">
+        <option value="">-- Select Stat --</option>
+        <% stats.forEach(stat => { %>
+          <option value="<%= stat.id %>" <%= statObj.id === stat.id ? 'selected' : '' %>>
+            <%= stat.stat_name %>
+          </option>
+        <% }) %>
+      </select>
+
+      <label for="statValue<%= i %>">Value</label>
+      <input 
+        type="number" 
+        id="statValue<%= i %>" 
+        name="stats[<%= i %>][value]" 
+        min="0" 
+        value="<%= statObj.value || '' %>"
+      />
+    </div>
+  <% } %>
+
+  <button type="submit">Submit</button>
+</form>

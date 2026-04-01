@@ -158,6 +158,21 @@ export async function getItems(req, res) {
   });
 }
 
+export async function getItem(req, res) {
+  const { id } = req.params;
+  const item = await db.getItem(id);
+  const classes = await db.getAllClasses();
+  const stats = await db.getAllStats();
+  res.render("layout", {
+    title: item.name,
+    page: "pages/items/single-item",
+    css: "/form.css",
+    item: item,
+    classes: classes,
+    stats: stats,
+  });
+}
+
 //Create an item
 export async function createItem(req, res) {
   const { itemName, itemCost, itemClass, stats } = req.body;
