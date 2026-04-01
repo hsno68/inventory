@@ -22,6 +22,10 @@
         </div>
       <% } %>
     <a href="/items/<%= item.id %>" class="button">Edit</a>
+    <form method="POST" action="/items/<%= item.id %>/delete" class="delete-form">
+      <button type="submit">Delete</button>
+    </form>
     </li>
   <% }) %>
 </ul>
+<script src="/js/confirm.js"></script>

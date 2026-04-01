@@ -226,3 +226,25 @@ export async function insertItem({ itemName, itemCost, class_id, stats }) {
     ]);
   }
 }
+
+//Update an item
+export async function updateItem({ id, itemName, itemCost, class_id, stats }) {
+  await pool.query("UPDATE items SET item_name = $1, item_cost = $2 WHERE id = $3", [
+    itemName,
+    itemCost,
+    id,
+  ]);
+
+  await pool.query("DELETE FROM item_classes WHERE item_id = $1", [id]);
+  await pool.query("DELETE FROM item_stats WHERE item_id = $1", [id]);
+
+  await pool.query("INSERT INTO item_classes (item_id, class_id) VALUES ($1, $2)", [id, class_id]);
+
+  for (const [stat_id, stat_value] of Object.entries(stats)) {
+    await pool.query("INSERT INTO item_stats (item_id, stat_id, stat_value) VALUES ($1, $2, $3)", [
+      id,
+      stat_id,
+      stat_value,
+    ]);
+  }
+}

@@ -158,11 +158,13 @@ export async function getItems(req, res) {
   });
 }
 
+//Read a single item
 export async function getItem(req, res) {
   const { id } = req.params;
   const item = await db.getItem(id);
   const classes = await db.getAllClasses();
   const stats = await db.getAllStats();
+
   res.render("layout", {
     title: item.name,
     page: "pages/items/single-item",
@@ -189,3 +191,24 @@ export async function createItem(req, res) {
 
   res.redirect("/items");
 }
+
+//Update an item
+export async function updateItem(req, res) {
+  const { id } = req.params;
+  const { itemName, itemCost, itemClass, stats } = req.body;
+
+  const validStats = stats.filter((stat) => stat.id);
+
+  const aggregateStats = {};
+
+  validStats.forEach(({ id, value }) => {
+    aggregateStats[id] = (aggregateStats[id] || 0) + Number(value) || 0;
+  });
+
+  await db.updateItem({ id, itemName, itemCost, class_id: itemClass, stats: aggregateStats });
+
+  res.redirect("/items");
+}
+
+//Delete an item
+export async function deleteItem(req, res) {}

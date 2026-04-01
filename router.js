@@ -17,6 +17,8 @@ import {
   createItem,
   getItems,
   getItem,
+  updateItem,
+  deleteItem,
 } from "./controller.js";
 
 const router = Router();
@@ -44,5 +46,7 @@ router.get("/items/new", getNewItem);
 router.get("/items/:id", getItem);
 
 router.post("/items", createItem);
+router.post("/items/:id", updateItem);
+router.post("items/:id/delete", deleteItem);
 
 export default router;
