@@ -53,21 +53,15 @@ export async function createClass(req, res) {
 //Update a class
 export async function updateClass(req, res) {
   const { id } = req.params;
-  const championClass = await db.getClass(id);
-  const { class_name: oldClass } = championClass;
-  const { className: newClass } = req.body;
-
-  await db.updateClass(oldClass, newClass);
+  const { className } = req.body;
+  await db.updateClass(id, className);
   res.redirect("/classes");
 }
 
 //Delete a class
 export async function deleteClass(req, res) {
   const { id } = req.params;
-  const championClass = await db.getClass(id);
-  const { class_name } = championClass;
-
-  await db.deleteClass(class_name);
+  await db.deleteClass(id);
   res.redirect("/classes");
 }
 
@@ -114,21 +108,15 @@ export async function createStat(req, res) {
 //Update a stat
 export async function updateStat(req, res) {
   const { id } = req.params;
-  const stat = await db.getStat(id);
-  const { stat_name: oldStat } = stat;
-  const { statName: newStat } = req.body;
-
-  await db.updateStat(oldStat, newStat);
+  const { statName } = req.body;
+  await db.updateStat(id, statName);
   res.redirect("/stats");
 }
 
 //Delete a stat
 export async function deleteStat(req, res) {
   const { id } = req.params;
-  const stat = await db.getStat(id);
-  const { stat_name } = stat;
-
-  await db.deleteStat(stat_name);
+  await db.deleteStat(id);
   res.redirect("/stats");
 }
 

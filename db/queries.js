@@ -20,20 +20,13 @@ export async function insertClass(className) {
 }
 
 //Update a class
-export async function updateClass(oldClass, newClass) {
-  if (oldClass === newClass) {
-    return;
-  }
-
-  await pool.query("UPDATE classes SET class_name = $1 WHERE class_name = $2", [
-    newClass,
-    oldClass,
-  ]);
+export async function updateClass(id, className) {
+  await pool.query("UPDATE classes SET class_name = $1 WHERE id = $2", [className, id]);
 }
 
 //Delete a class
-export async function deleteClass(className) {
-  await pool.query("DELETE FROM classes WHERE class_name = $1", [className]);
+export async function deleteClass(id) {
+  await pool.query("DELETE FROM classes WHERE id = $1", [id]);
 }
 
 // **Stats
@@ -56,17 +49,13 @@ export async function insertStat(statName) {
 }
 
 //Update a stat
-export async function updateStat(oldStat, newStat) {
-  if (oldStat === newStat) {
-    return;
-  }
-
-  await pool.query("UPDATE stats SET stat_name = $1 WHERE stat_name = $2", [newStat, oldStat]);
+export async function updateStat(id, statName) {
+  await pool.query("UPDATE stats SET stat_name = $1 WHERE id = $2", [statName, id]);
 }
 
 //Delete a stat
-export async function deleteStat(statName) {
-  await pool.query("DELETE FROM stats WHERE stat_name = $1", [statName]);
+export async function deleteStat(id) {
+  await pool.query("DELETE FROM stats WHERE id = $1", [id]);
 }
 
 // **Items
@@ -248,3 +237,5 @@ export async function updateItem({ id, itemName, itemCost, class_id, stats }) {
     ]);
   }
 }
+
+//Delete an item
