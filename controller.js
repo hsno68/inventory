@@ -1,4 +1,7 @@
 import * as db from "./db/queries.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 //Homepage
 
@@ -62,7 +65,7 @@ export async function updateClass(req, res) {
 export async function deleteClass(req, res) {
   const { id } = req.params;
   await db.deleteClass(id);
-  res.redirect("/classes");
+  res.sendStatus(200);
 }
 
 //Stats
@@ -117,7 +120,7 @@ export async function updateStat(req, res) {
 export async function deleteStat(req, res) {
   const { id } = req.params;
   await db.deleteStat(id);
-  res.redirect("/stats");
+  res.sendStatus(200);
 }
 
 //Items
@@ -202,5 +205,20 @@ export async function updateItem(req, res) {
 export async function deleteItem(req, res) {
   const { id } = req.params;
   await db.deleteItem(id);
-  res.redirect("/items");
+  res.sendStatus(200);
+}
+
+//Verification
+export function verifyAdmin(req, res, next) {
+  const password = req.body.password;
+
+  if (!password) {
+    return res.status(400).json({ error: "Password required." });
+  }
+
+  if (password !== process.env.ADMIN_PASSWORD) {
+    return res.status(403).json({ error: "Invalid password." });
+  }
+
+  next();
 }
